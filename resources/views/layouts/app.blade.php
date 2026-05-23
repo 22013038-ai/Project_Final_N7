@@ -7,26 +7,26 @@
 
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
-
-    <title>Hệ thống quản lý sự kiện</title>
+    <title>
+        Hệ thống quản lý sự kiện & lễ hội du lịch
+    </title>
 
     <script src="https://cdn.tailwindcss.com"></script>
-
 </head>
 
-<body class="bg-gray-100">
+<body class="bg-gray-100 min-h-screen flex flex-col">
+    <nav class="bg-blue-700 shadow-lg text-white">
 
-    <nav class="bg-blue-600 text-white p-4">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
 
-        <div class="container mx-auto flex justify-between">
+            <a href="/"
+               class="text-3xl font-bold">
 
-            <h1 class="text-2xl font-bold">
+                 Nhóm 7
 
-                🎉 Event Travel
+            </a>
 
-            </h1>
-
-            <div class="space-x-4">
+            <div class="space-x-5 text-lg">
 
                 <a href="/"
                    class="hover:text-yellow-300">
@@ -35,58 +35,72 @@
 
                 </a>
 
-                <a href="/events/create"
+                <a href="/events"
                    class="hover:text-yellow-300">
 
-                    Thêm sự kiện
+                    Sự kiện
 
                 </a>
-
-                <a href="/dashboard"
-                   class="hover:text-yellow-300">
-
-                    Dashboard
-
-                </a>
-
-                @guest
-
-                    <a href="/login">
-
-                        Login
-
-                    </a>
-
-                    <a href="/register">
-
-                        Register
-
-                    </a>
-
-                @endguest
 
                 @auth
 
-                    <a href="/my-registrations">
+                    <a href="/events/create"
+                       class="hover:text-yellow-300">
 
-                        Đăng ký của tôi
+                         Thêm sự kiện
 
                     </a>
 
-                    <form
-                    action="/logout"
-                    method="POST"
-                    class="inline">
+                    <a href="/dashboard"
+                       class="hover:text-yellow-300">
+
+                         Dashboard
+
+                    </a>
+
+                    <a href="/my-registrations"
+                       class="hover:text-yellow-300">
+
+                         Đăng ký của tôi
+
+                    </a>
+
+                    <span class="font-bold">
+
+                         {{ auth()->user()->name }}
+
+                    </span>
+
+                    <form action="/logout"
+                          method="POST"
+                          class="inline">
 
                         @csrf
 
-                        <button>
+                        <button
+                            class="hover:text-red-300">
 
-                            Logout
+                            Đăng xuất
 
                         </button>
 
                     </form>
+
+                @else
+
+                    <a href="/login"
+                       class="hover:text-yellow-300">
+
+                        Đăng nhập
+
+                    </a>
+
+                    <a href="/register"
+                       class="hover:text-yellow-300">
+
+                        Đăng ký
+
+                    </a>
 
                 @endauth
 
@@ -96,25 +110,39 @@
 
     </nav>
 
-    <section class="bg-cover bg-center h-[350px]"
-    style="background-image:url('https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=2070');">
+    @if(request()->path() == '/')
 
-        <div class="bg-black/50 h-full flex items-center justify-center">
+    <section
+        class="bg-cover bg-center h-[550px]"
+        style="background-image:url('https://media.thuonghieucongluan.vn/uploads/2026/01/10/ph-1768025397.jpg');">
 
-            <div class="text-center text-white">
+        <div
+            class="bg-black/60 h-full flex items-center justify-center">
 
-                <h1 class="text-5xl font-bold mb-4">
+            <div
+                class="text-center text-white">
+
+                <h1
+                    class="text-6xl font-bold mb-6">
 
                     Hệ thống quản lý sự kiện
                     & lễ hội du lịch
 
                 </h1>
 
-                <p class="text-xl">
+                <p
+                    class="text-2xl mb-8">
 
-                    Khám phá lễ hội - Đăng ký dễ dàng 🎊
+                    Khám phá lễ hội • Đăng ký dễ dàng • Trải nghiệm tuyệt vời
 
                 </p>
+
+                <a href="/events"
+                   class="bg-yellow-500 hover:bg-yellow-400 text-black font-bold px-8 py-4 rounded-lg">
+
+                    Xem sự kiện
+
+                </a>
 
             </div>
 
@@ -122,11 +150,13 @@
 
     </section>
 
-    <div class="container mx-auto py-10">
+    @endif
+    <main class="container mx-auto px-6 py-10 flex-grow">
 
         @if(session('success'))
 
-            <div class="bg-green-500 text-white p-4 mb-5 rounded">
+            <div
+                class="bg-green-500 text-white p-4 rounded-lg mb-6">
 
                 {{ session('success') }}
 
@@ -134,13 +164,164 @@
 
         @endif
 
+        @if($errors->any())
+
+            <div
+                class="bg-red-500 text-white p-4 rounded-lg mb-6">
+
+                <ul>
+
+                    @foreach($errors->all() as $error)
+
+                        <li>
+
+                            {{ $error }}
+
+                        </li>
+
+                    @endforeach
+
+                </ul>
+
+            </div>
+
+        @endif
+
         @yield('content')
 
-    </div>
+    </main>
+    <footer
+        class="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-500 text-white">
 
-    <footer class="bg-gray-900 text-white p-5 text-center">
+        <div
+            class="container mx-auto px-6 py-10">
 
-        © 2026 Hệ thống quản lý sự kiện du lịch
+            <div
+                class="grid md:grid-cols-3 gap-8">
+
+                <div>
+
+                    <h3
+                        class="text-2xl font-bold mb-4">
+
+                         Sự kiện du lịch
+
+                    </h3>
+
+                    <p>
+
+                        Hệ thống quản lý sự kiện và lễ hội du lịch.
+
+                    </p>
+
+                    <p class="mt-2">
+
+                        Khám phá • Đăng ký • Trải nghiệm
+
+                    </p>
+
+                </div>
+
+                <div>
+
+                    <h3
+                        class="text-2xl font-bold mb-4">
+
+                         Liên kết nhanh
+
+                    </h3>
+
+                    <ul class="space-y-2">
+
+                        <li>
+
+                            <a href="/"
+                               class="hover:text-yellow-300">
+
+                                Trang chủ
+
+                            </a>
+
+                        </li>
+
+                        <li>
+
+                            <a href="/events"
+                               class="hover:text-yellow-300">
+
+                                Danh sách sự kiện
+
+                            </a>
+
+                        </li>
+
+                        <li>
+
+                            <a href="/events/create"
+                               class="hover:text-yellow-300">
+
+                                Thêm sự kiện
+
+                            </a>
+
+                        </li>
+
+                        <li>
+
+                            <a href="/dashboard"
+                               class="hover:text-yellow-300">
+
+                                Dashboard
+
+                            </a>
+
+                        </li>
+
+                    </ul>
+
+                </div>
+
+                <div>
+
+                    <h3
+                        class="text-2xl font-bold mb-4">
+
+                         Liên hệ
+
+                    </h3>
+
+                    <p>
+
+                         nhom7-ltw2@phenikaa.com
+
+                    </p>
+
+                    <p class="mt-2">
+
+                         Đại học Phenikaa
+
+                    </p>
+
+                    <p class="mt-2">
+
+                         035 377 0240
+
+                    </p>
+
+                </div>
+
+            </div>
+
+            <hr class="my-6 border-white/30">
+
+            <div
+                class="text-center text-lg">
+
+                © 2026 Hệ thống quản lý sự kiện & lễ hội du lịch
+
+            </div>
+
+        </div>
 
     </footer>
 

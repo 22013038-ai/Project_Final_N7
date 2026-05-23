@@ -46,6 +46,7 @@ class Event extends Model
         'featured'
 
     ];
+
     public function category()
     {
         return $this->belongsTo(
@@ -53,10 +54,18 @@ class Event extends Model
             'category_id'
         );
     }
+
     public function registrations()
     {
         return $this->hasMany(
             Registration::class
+        );
+    }
+
+    public function images()
+    {
+        return $this->hasMany(
+            EventImage::class
         );
     }
 }

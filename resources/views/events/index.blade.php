@@ -4,7 +4,7 @@
 
 <h1 class="text-3xl font-bold mb-8">
 
-    Danh sách sự kiện 🎉
+    Danh sách sự kiện 
 
 </h1>
 
@@ -32,13 +32,13 @@
 
             <p class="text-gray-600">
 
-                📍 {{ $event->location }}
+                 {{ $event->location }}
 
             </p>
 
             <p class="text-gray-600">
 
-                📅 {{ $event->event_date }}
+                 {{ $event->event_date }}
 
             </p>
 

@@ -1,220 +1,269 @@
-<!DOCTYPE html>
-<html lang="vi">
+@extends('layouts.app')
 
-<head>
+@section('content')
 
-    <meta charset="UTF-8">
+<div class="max-w-5xl mx-auto py-10">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
 
-    <title>Thêm sự kiện</title>
+        <div class="bg-blue-700 px-8 py-6">
 
-    <style>
+            <h1 class="text-3xl font-bold text-white">
 
-        body{
+                Thêm Sự Kiện Mới
 
-            font-family: Arial, sans-serif;
+            </h1>
 
-            background:#f4f4f4;
+            <p class="text-blue-100 mt-2">
 
-            padding:40px;
+                Nhập thông tin để tạo sự kiện mới trong hệ thống
 
-        }
-
-        .container{
-
-            width:600px;
-
-            margin:auto;
-
-            background:white;
-
-            padding:30px;
-
-            border-radius:10px;
-
-            box-shadow:0 0 10px rgba(0,0,0,0.1);
-
-        }
-
-        h1{
-
-            text-align:center;
-
-            margin-bottom:30px;
-
-        }
-
-        label{
-
-            font-weight:bold;
-
-        }
-
-        input,
-        textarea,
-        select{
-
-            width:100%;
-
-            padding:10px;
-
-            margin-top:8px;
-
-            margin-bottom:20px;
-
-            border:1px solid #ccc;
-
-            border-radius:5px;
-
-        }
-
-        button{
-
-            background:#0d6efd;
-
-            color:white;
-
-            border:none;
-
-            padding:12px 20px;
-
-            border-radius:5px;
-
-            cursor:pointer;
-
-            font-size:16px;
-
-        }
-
-        button:hover{
-
-            background:#0b5ed7;
-
-        }
-
-        .error{
-
-            color:red;
-
-            margin-bottom:15px;
-
-        }
-
-        .back{
-
-            display:inline-block;
-
-            margin-bottom:20px;
-
-            text-decoration:none;
-
-            color:#0d6efd;
-
-        }
-
-    </style>
-
-</head>
-
-<body>
-
-<div class="container">
-
-    <a href="/" class="back">
-        ← Quay lại trang chủ
-    </a>
-
-    <h1>🎉 Thêm sự kiện</h1>
-
-    @if ($errors->any())
-
-        <div class="error">
-
-            <ul>
-
-                @foreach ($errors->all() as $error)
-
-                    <li>{{ $error }}</li>
-
-                @endforeach
-
-            </ul>
+            </p>
 
         </div>
 
-    @endif
+        <div class="p-8">
 
-    <form
-    action="{{ route('events.store') }}"
-    method="POST"
-    enctype="multipart/form-data">
+            <form
+                action="{{ route('events.store') }}"
+                method="POST"
+                enctype="multipart/form-data">
 
-        @csrf
+                @csrf
 
-        <label>Loại sự kiện</label>
+                <div class="mb-6">
 
-        <select name="category_id">
+                    <label
+                        class="block text-gray-700 font-semibold mb-2">
 
-            @foreach($categories as $category)
+                        Danh mục sự kiện
 
-                <option value="{{ $category->id }}">
+                    </label>
 
-                    {{ $category->name }}
+                    <select
+                        name="category_id"
+                        required
+                        class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
 
-                </option>
+                        @foreach($categories as $category)
 
-            @endforeach
+                            <option value="{{ $category->id }}">
 
-        </select>
+                                {{ $category->name }}
 
-        <label>Tên sự kiện</label>
+                            </option>
 
-        <input
-        type="text"
-        name="title"
-        placeholder="Nhập tên sự kiện"
-        value="{{ old('title') }}">
+                        @endforeach
 
-        <label>Địa điểm</label>
+                    </select>
 
-        <input
-        type="text"
-        name="location"
-        placeholder="Nhập địa điểm"
-        value="{{ old('location') }}">
+                </div>
 
-        <label>Ngày tổ chức</label>
+                <div class="mb-6">
 
-        <input
-        type="date"
-        name="event_date"
-        value="{{ old('event_date') }}">
+                    <label
+                        class="block text-gray-700 font-semibold mb-2">
 
-        <label>Mô tả sự kiện</label>
+                        Tên sự kiện
 
-        <textarea
-        name="description"
-        rows="5"
-        placeholder="Nhập mô tả sự kiện">{{ old('description') }}</textarea>
+                    </label>
 
-        <label>Ảnh sự kiện</label>
+                    <input
+                        type="text"
+                        name="title"
+                        required
+                        placeholder="Nhập tên sự kiện"
+                        class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
 
-        <input
-        type="file"
-        name="image">
+                </div>
 
-        <button type="submit">
+                <div class="mb-6">
 
-            ➕ Thêm sự kiện
+                    <label
+                        class="block text-gray-700 font-semibold mb-2">
 
-        </button>
+                        Tỉnh / Thành phố
 
-    </form>
+                    </label>
+
+                    <select
+                        name="location"
+                        required
+                        class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+
+                        <option value="">
+                            Chọn địa phương
+                        </option>
+
+                        <option>Hà Nội</option>
+                        <option>Hải Phòng</option>
+                        <option>Quảng Ninh</option>
+                        <option>Lạng Sơn</option>
+                        <option>Cao Bằng</option>
+                        <option>Thái Nguyên</option>
+                        <option>Tuyên Quang</option>
+                        <option>Lào Cai</option>
+                        <option>Lai Châu</option>
+                        <option>Điện Biên</option>
+                        <option>Sơn La</option>
+                        <option>Phú Thọ</option>
+                        <option>Bắc Ninh</option>
+                        <option>Hưng Yên</option>
+                        <option>Ninh Bình</option>
+                        <option>Thanh Hóa</option>
+                        <option>Nghệ An</option>
+                        <option>Hà Tĩnh</option>
+                        <option>Quảng Trị</option>
+                        <option>Huế</option>
+                        <option>Đà Nẵng</option>
+                        <option>Quảng Ngãi</option>
+                        <option>Gia Lai</option>
+                        <option>Khánh Hòa</option>
+                        <option>Đắk Lắk</option>
+                        <option>Lâm Đồng</option>
+                        <option>TP Hồ Chí Minh</option>
+                        <option>Đồng Nai</option>
+                        <option>Tây Ninh</option>
+                        <option>Đồng Tháp</option>
+                        <option>Vĩnh Long</option>
+                        <option>Cần Thơ</option>
+                        <option>An Giang</option>
+                        <option>Cà Mau</option>
+
+                    </select>
+
+                </div>
+
+                <div class="mb-6">
+
+                    <label
+                        class="block text-gray-700 font-semibold mb-2">
+
+                        Địa điểm cụ thể
+
+                    </label>
+
+                    <input
+                        type="text"
+                        name="location_detail"
+                        placeholder="Ví dụ: Tràng An, Bà Nà Hills, Hồ Xuân Hương..."
+                        class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+
+                </div>
+
+
+                <div class="mb-6">
+
+                    <label
+                        class="block text-gray-700 font-semibold mb-2">
+
+                        Ngày tổ chức
+
+                    </label>
+
+                    <input
+                        type="date"
+                        name="event_date"
+                        required
+                        class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+
+                </div>
+
+
+                <div class="mb-6">
+
+                    <label
+                        class="block text-gray-700 font-semibold mb-2">
+
+                        Mô tả sự kiện
+
+                    </label>
+
+                    <textarea
+                        name="description"
+                        rows="6"
+                        required
+                        placeholder="Nhập mô tả chi tiết sự kiện"
+                        class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"></textarea>
+
+                </div>
+
+
+                <div class="mb-8">
+
+                    <label
+                        class="block text-gray-700 font-semibold mb-2">
+
+                        Hình ảnh sự kiện
+
+                    </label>
+
+                    <input
+                        type="file"
+                        name="image"
+                        id="imageInput"
+                        class="w-full border border-gray-300 rounded-lg p-3">
+
+                    <div class="mt-5">
+
+                        <img
+                            id="preview"
+                            class="hidden max-h-80 rounded-lg shadow-md">
+
+                    </div>
+
+                </div>
+
+                <div class="flex gap-4">
+
+                    <button
+                        type="submit"
+                        class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-semibold">
+
+                        Lưu sự kiện
+
+                    </button>
+
+                    <a
+                        href="/"
+                        class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-8 py-3 rounded-lg font-semibold">
+
+                        Quay lại
+
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
 
 </div>
 
-</body>
+<script>
 
-</html>
+document
+.getElementById('imageInput')
+.addEventListener('change', function(e){
+
+    const file = e.target.files[0];
+
+    if(file){
+
+        const preview =
+        document.getElementById('preview');
+
+        preview.src =
+        URL.createObjectURL(file);
+
+        preview.classList.remove('hidden');
+
+    }
+
+});
+
+</script>
+
+@endsection
