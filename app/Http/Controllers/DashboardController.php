@@ -13,9 +13,11 @@ class DashboardController extends Controller
         $totalEvents = Event::count();
 
         $totalUsers = User::count();
-
         $totalRegistrations = Registration::count();
-
+        $pendingRegistrations = Registration::where(
+            'status',
+            'pending'
+        )->count();
         $latestEvents = Event::latest()
             ->take(5)
             ->get();
@@ -30,6 +32,7 @@ class DashboardController extends Controller
                 'totalEvents',
                 'totalUsers',
                 'totalRegistrations',
+                'pendingRegistrations',
                 'latestEvents',
                 'latestRegistrations'
             )

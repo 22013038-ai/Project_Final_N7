@@ -6,6 +6,7 @@
 
     <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
 
+        {{-- HEADER --}}
         <div class="bg-blue-700 px-8 py-6">
 
             <h1 class="text-3xl font-bold text-white">
@@ -22,8 +23,33 @@
 
         </div>
 
+        {{-- CONTENT --}}
         <div class="p-8">
 
+            {{-- ERROR --}}
+            @if ($errors->any())
+
+                <div class="bg-red-100 text-red-700 p-4 rounded mb-6">
+
+                    <ul class="list-disc ml-5">
+
+                        @foreach ($errors->all() as $error)
+
+                            <li>
+
+                                {{ $error }}
+
+                            </li>
+
+                        @endforeach
+
+                    </ul>
+
+                </div>
+
+            @endif
+
+            {{-- FORM --}}
             <form
                 action="{{ route('events.store') }}"
                 method="POST"
@@ -31,6 +57,7 @@
 
                 @csrf
 
+                {{-- CATEGORY --}}
                 <div class="mb-6">
 
                     <label
@@ -45,9 +72,16 @@
                         required
                         class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
 
+                        <option value="">
+
+                            Chọn danh mục
+
+                        </option>
+
                         @foreach($categories as $category)
 
-                            <option value="{{ $category->id }}">
+                            <option
+                                value="{{ $category->id }}">
 
                                 {{ $category->name }}
 
@@ -59,6 +93,7 @@
 
                 </div>
 
+                {{-- TITLE --}}
                 <div class="mb-6">
 
                     <label
@@ -77,6 +112,7 @@
 
                 </div>
 
+                {{-- LOCATION --}}
                 <div class="mb-6">
 
                     <label
@@ -92,7 +128,9 @@
                         class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
 
                         <option value="">
+
                             Chọn địa phương
+
                         </option>
 
                         <option>Hà Nội</option>
@@ -134,6 +172,7 @@
 
                 </div>
 
+                {{-- LOCATION DETAIL --}}
                 <div class="mb-6">
 
                     <label
@@ -146,12 +185,12 @@
                     <input
                         type="text"
                         name="location_detail"
-                        placeholder="Ví dụ: Tràng An, Bà Nà Hills, Hồ Xuân Hương..."
+                        placeholder="Ví dụ: Tràng An, Bà Nà Hills..."
                         class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
 
                 </div>
 
-
+                {{-- DATE --}}
                 <div class="mb-6">
 
                     <label
@@ -169,7 +208,7 @@
 
                 </div>
 
-
+                {{-- DESCRIPTION --}}
                 <div class="mb-6">
 
                     <label
@@ -188,7 +227,7 @@
 
                 </div>
 
-
+                {{-- IMAGES --}}
                 <div class="mb-8">
 
                     <label
@@ -200,20 +239,27 @@
 
                     <input
                         type="file"
-                        name="image"
+                        name="images[]"
                         id="imageInput"
+                        multiple
                         class="w-full border border-gray-300 rounded-lg p-3">
 
-                    <div class="mt-5">
+                    <p class="text-sm text-gray-500 mt-2">
 
-                        <img
-                            id="preview"
-                            class="hidden max-h-80 rounded-lg shadow-md">
+                        Có thể chọn nhiều ảnh
+
+                    </p>
+
+                    {{-- PREVIEW --}}
+                    <div
+                        id="previewContainer"
+                        class="mt-5 flex gap-4 flex-wrap">
 
                     </div>
 
                 </div>
 
+                {{-- BUTTON --}}
                 <div class="flex gap-4">
 
                     <button
@@ -225,7 +271,7 @@
                     </button>
 
                     <a
-                        href="/"
+                        href="/events"
                         class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-8 py-3 rounded-lg font-semibold">
 
                         Quay lại
@@ -242,23 +288,32 @@
 
 </div>
 
+{{-- PREVIEW SCRIPT --}}
 <script>
 
 document
 .getElementById('imageInput')
 .addEventListener('change', function(e){
 
-    const file = e.target.files[0];
+    const previewContainer =
+    document.getElementById('previewContainer');
 
-    if(file){
+    previewContainer.innerHTML = '';
 
-        const preview =
-        document.getElementById('preview');
+    const files = e.target.files;
 
-        preview.src =
-        URL.createObjectURL(file);
+    for(let i = 0; i < files.length; i++){
 
-        preview.classList.remove('hidden');
+        const img =
+        document.createElement('img');
+
+        img.src =
+        URL.createObjectURL(files[i]);
+
+        img.className =
+        'max-h-40 rounded-lg shadow-md';
+
+        previewContainer.appendChild(img);
 
     }
 

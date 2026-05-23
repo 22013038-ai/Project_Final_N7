@@ -2,126 +2,146 @@
 
 @section('content')
 
-<div class="bg-white rounded-xl shadow-lg overflow-hidden">
+<div class="max-w-6xl mx-auto py-10">
 
-    @if($event->image)
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden">
 
-        <img
-        src="{{ asset('uploads/'.$event->image) }}"
-        class="w-full h-[500px] object-cover">
+        {{-- MULTIPLE IMAGES --}}
+        <div class="grid md:grid-cols-2 gap-4 p-6">
 
-    @endif
+            @foreach($event->images as $img)
 
-    <div class="p-8">
+                <img
+                    src="{{ asset('uploads/'.$img->image) }}"
+                    class="w-full h-[350px] object-cover rounded-xl shadow">
 
-        <h1 class="text-4xl font-bold mb-4">
+            @endforeach
 
-            {{ $event->title }}
+        </div>
 
-        </h1>
+        <div class="p-8">
 
-        <div class="grid md:grid-cols-2 gap-6 mb-6">
+            <h1 class="text-4xl font-bold mb-4">
 
-            <div>
+                {{ $event->title }}
 
-                <p class="text-lg mb-3">
+            </h1>
 
-                     <strong>Địa điểm:</strong>
+            <div class="grid md:grid-cols-2 gap-6 mb-6">
 
-                    {{ $event->location }}
+                <div>
 
-                </p>
+                    <p class="text-lg mb-3">
 
-                <p class="text-lg mb-3">
+                        <strong>Địa điểm:</strong>
 
-                     <strong>Ngày tổ chức:</strong>
+                        {{ $event->location }}
 
-                    {{ $event->event_date }}
-
-                </p>
-
-            </div>
-
-            <div>
-
-                <div
-                class="bg-blue-100 p-4 rounded-lg">
-
-                    <h3 class="font-bold text-xl mb-2">
-
-                         Đếm ngược sự kiện
-
-                    </h3>
-
-                    <p id="countdown"
-                       class="text-2xl text-red-600 font-bold">
                     </p>
+
+                    <p class="text-lg mb-3">
+
+                        <strong>Ngày tổ chức:</strong>
+
+                        {{ $event->event_date }}
+
+                    </p>
+
+                </div>
+
+                <div>
+
+                    <div class="bg-blue-100 p-4 rounded-lg">
+
+                        <h3 class="font-bold text-xl mb-2">
+
+                            Đếm ngược sự kiện
+
+                        </h3>
+
+                        <p
+                            id="countdown"
+                            class="text-2xl text-red-600 font-bold">
+
+                        </p>
+
+                    </div>
 
                 </div>
 
             </div>
 
-        </div>
+            <hr class="my-6">
 
-        <hr class="my-6">
+            <h2 class="text-2xl font-bold mb-4">
 
-        <h2 class="text-2xl font-bold mb-4">
+                Giới thiệu sự kiện
 
-            Giới thiệu sự kiện
+            </h2>
 
-        </h2>
+            <p class="leading-8 text-gray-700">
 
-        <p class="leading-8 text-gray-700">
+                {{ $event->description }}
 
-            {{ $event->description }}
+            </p>
 
-        </p>
+            <hr class="my-6">
 
-        <hr class="my-6">
+            <h2 class="text-2xl font-bold mb-4">
 
-        <h2 class="text-2xl font-bold mb-4">
+                Bản đồ địa điểm
 
-             Bản đồ địa điểm
+            </h2>
 
-        </h2>
+            <iframe
+                width="100%"
+                height="400"
+                style="border:0"
+                loading="lazy"
+                allowfullscreen
+                src="https://maps.google.com/maps?q={{ urlencode($event->location) }}&output=embed">
+            </iframe>
 
-        <iframe
-        width="100%"
-        height="400"
-        style="border:0"
-        loading="lazy"
-        allowfullscreen
-        src="https://maps.google.com/maps?q={{ urlencode($event->location) }}&output=embed">
-        </iframe>
+            <div class="mt-8 flex gap-3">
 
-        <div class="mt-8 flex gap-3">
+                @auth
 
-            @auth
+                    <form
+                        action="/register-event/{{ $event->id }}"
+                        method="POST">
 
-            <form
-            action="/register-event/{{ $event->id }}"
-            method="POST">
+                        @csrf
 
-                @csrf
+                        <button
+                            class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg">
 
-                <button
-                class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg">
+                            Đăng ký tham gia
 
-                     Đăng ký tham gia
+                        </button>
 
-                </button>
+                    </form>
 
-            </form>
+                @else
 
-            @endauth
+                    <a
+                        href="{{ route('login') }}"
+                        class="bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-lg">
 
-            <a
-            href="/"
-            class="bg-gray-600 hover:bg-gray-700 text-white px-6 py-3 rounded-lg">
+                        Đăng nhập để đăng ký
 
-                ← Quay lại
+                    </a>
 
-            </a>
+                @endauth
+
+                <a
+                    href="/"
+                    class="bg-gray-600 hover:bg-gray-700 text-white px-6 py-3 rounded-lg">
+
+                    ← Quay lại
+
+                </a>
+
+            </div>
 
         </div>
 
@@ -135,9 +155,8 @@ const eventDate = new Date(
     "{{ $event->event_date }}"
 ).getTime();
 
-const countdown = document.getElementById(
-    "countdown"
-);
+const countdown =
+document.getElementById("countdown");
 
 setInterval(function(){
 
@@ -159,10 +178,19 @@ setInterval(function(){
         / (1000 * 60)
     );
 
-    countdown.innerHTML =
-        days + " ngày "
-        + hours + " giờ "
-        + minutes + " phút";
+    if(distance < 0){
+
+        countdown.innerHTML =
+        "Sự kiện đang diễn ra";
+
+    }else{
+
+        countdown.innerHTML =
+            days + " ngày "
+            + hours + " giờ "
+            + minutes + " phút";
+
+    }
 
 },1000);
 

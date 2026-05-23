@@ -2,60 +2,144 @@
 
 @section('content')
 
-<h1 class="text-3xl font-bold mb-6">
-    Đăng ký của tôi
-</h1>
+<div class="container mx-auto py-10">
 
-<table class="w-full bg-white shadow rounded">
+    <h1 class="text-4xl font-bold mb-8">
 
-    <thead>
+        Đăng ký của tôi
 
-        <tr class="bg-blue-600 text-white">
+    </h1>
 
-            <th class="p-3">ID</th>
-            <th class="p-3">Sự kiện</th>
-            <th class="p-3">Trạng thái</th>
+    {{-- SUCCESS MESSAGE --}}
+    @if(session('success'))
 
-        </tr>
+        <div class="bg-green-500 text-white p-4 rounded mb-6">
 
-    </thead>
+            {{ session('success') }}
 
-    <tbody>
+        </div>
 
-        @forelse($registrations as $item)
+    @endif
 
-        <tr class="border-b">
+    {{-- TABLE --}}
+    <div class="bg-white rounded-xl shadow overflow-hidden">
 
-            <td class="p-3">
-                {{ $item->id }}
-            </td>
+        <table class="w-full">
 
-            <td class="p-3">
-                {{ $item->event_id }}
-            </td>
+            <thead class="bg-blue-600 text-white">
 
-            <td class="p-3">
-                {{ $item->status }}
-            </td>
+                <tr>
 
-        </tr>
+                    <th class="p-4 text-left">
 
-        @empty
+                        ID
 
-        <tr>
+                    </th>
 
-            <td colspan="3" class="p-4 text-center">
+                    <th class="p-4 text-left">
 
-                Chưa có đăng ký nào
+                        Sự kiện
 
-            </td>
+                    </th>
 
-        </tr>
+                    <th class="p-4 text-left">
 
-        @endforelse
+                        Ngày đăng ký
 
-    </tbody>
+                    </th>
 
-</table>
+                    <th class="p-4 text-left">
+
+                        Trạng thái
+
+                    </th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                @forelse($registrations as $item)
+
+                    <tr class="border-b hover:bg-gray-50">
+
+                        {{-- ID --}}
+                        <td class="p-4">
+
+                            {{ $item->id }}
+
+                        </td>
+
+                        {{-- EVENT NAME --}}
+                        <td class="p-4 font-semibold">
+
+                            {{ $item->event->title ?? 'N/A' }}
+
+                        </td>
+
+                        {{-- CREATED DATE --}}
+                        <td class="p-4">
+
+                            {{ $item->created_at->format('d/m/Y') }}
+
+                        </td>
+
+                        {{-- STATUS --}}
+                        <td class="p-4">
+
+                            @if($item->status == 'pending')
+
+                                <span class="bg-yellow-200 text-yellow-800 px-3 py-1 rounded">
+
+                                    Chờ duyệt
+
+                                </span>
+
+                            @elseif($item->status == 'approved')
+
+                                <span class="bg-green-200 text-green-800 px-3 py-1 rounded">
+
+                                    Đã duyệt
+
+                                </span>
+
+                            @else
+
+                                <span class="bg-red-200 text-red-800 px-3 py-1 rounded">
+
+                                    Đã hủy
+
+                                </span>
+
+                            @endif
+
+                        </td>
+
+                    </tr>
+
+                @empty
+
+                    <tr>
+
+                        <td
+                            colspan="4"
+                            class="p-6 text-center text-gray-500">
+
+                            Chưa có đăng ký nào
+
+                        </td>
+
+                    </tr>
+
+                @endforelse
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
 
 @endsection
