@@ -10,15 +10,11 @@
         <div class="bg-blue-700 px-8 py-6">
 
             <h1 class="text-3xl font-bold text-white">
-
                 Thêm Sự Kiện Mới
-
             </h1>
 
             <p class="text-blue-100 mt-2">
-
                 Nhập thông tin để tạo sự kiện mới trong hệ thống
-
             </p>
 
         </div>
@@ -35,11 +31,7 @@
 
                         @foreach ($errors->all() as $error)
 
-                            <li>
-
-                                {{ $error }}
-
-                            </li>
+                            <li>{{ $error }}</li>
 
                         @endforeach
 
@@ -73,18 +65,13 @@
                         class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
 
                         <option value="">
-
                             Chọn danh mục
-
                         </option>
 
                         @foreach($categories as $category)
 
-                            <option
-                                value="{{ $category->id }}">
-
+                            <option value="{{ $category->id }}">
                                 {{ $category->name }}
-
                             </option>
 
                         @endforeach
@@ -128,9 +115,7 @@
                         class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
 
                         <option value="">
-
                             Chọn địa phương
-
                         </option>
 
                         <option>Hà Nội</option>
@@ -245,9 +230,7 @@
                         class="w-full border border-gray-300 rounded-lg p-3">
 
                     <p class="text-sm text-gray-500 mt-2">
-
                         Có thể chọn nhiều ảnh
-
                     </p>
 
                     {{-- PREVIEW --}}

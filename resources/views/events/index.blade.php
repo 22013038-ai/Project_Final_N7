@@ -2,82 +2,99 @@
 
 @section('content')
 
-<h1 class="text-3xl font-bold mb-8">
+<div class="max-w-7xl mx-auto px-4 py-8">
 
-    Danh sách sự kiện 
+    <h1 class="text-4xl font-bold mb-10 text-center">
 
-</h1>
+        Danh sách sự kiện
 
-<div class="grid grid-cols-1 md:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    </h1>
 
-    @foreach($events as $event)
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 
-    <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+        @foreach($events as $event)
 
-        @if($event->image)
+        <div class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition duration-300">
 
-            <img
-            src="{{ asset('uploads/'.$event->image) }}"
-            class="w-full h-56 object-cover">
+            {{-- IMAGE --}}
+            @if($event->images->count() > 0)
 
-        @endif
+                <img
+                    src="{{ asset('uploads/' . $event->images[0]->image) }}"
+                    alt="event image"
+                    class="w-full h-60 object-cover">
 
-        <div class="p-5">
+            @else
 
-            <h2 class="text-2xl font-bold mb-2">
+                <img
+                    src="https://via.placeholder.com/600x300"
+                    alt="no image"
+                    class="w-full h-60 object-cover">
 
-                {{ $event->title }}
+            @endif
 
-            </h2>
+            {{-- CONTENT --}}
+            <div class="p-6">
 
-            <p class="text-gray-600">
+                <h2 class="text-2xl font-bold mb-3 text-gray-800">
 
-                 {{ $event->location }}
+                    {{ $event->title }}
 
-            </p>
+                </h2>
 
-            <p class="text-gray-600">
+                <p class="text-gray-600 mb-2">
 
-                 {{ $event->event_date }}
+                     {{ $event->location }}
 
-            </p>
+                </p>
 
-            <div class="mt-4 flex gap-2">
+                <p class="text-gray-500 mb-5">
 
-                <a
-                href="/events/{{ $event->id }}"
-                class="bg-blue-500 text-white px-4 py-2 rounded">
+                     {{ $event->event_date }}
 
-                    Chi tiết
+                </p>
 
-                </a>
+                <div class="flex gap-3">
 
-                @auth
+                    {{-- DETAIL --}}
+                    <a
+                        href="/events/{{ $event->id }}"
+                        class="bg-blue-500 hover:bg-blue-600 text-white px-5 py-2 rounded-lg transition">
 
-                <form
-                action="/register-event/{{ $event->id }}"
-                method="POST">
+                        Chi tiết
 
-                    @csrf
+                    </a>
 
-                    <button
-                    class="bg-green-500 text-white px-4 py-2 rounded">
+                    {{-- REGISTER --}}
+                    @auth
 
-                        Đăng ký
+                    <form
+                        action="/register-event/{{ $event->id }}"
+                        method="POST">
 
-                    </button>
+                        @csrf
 
-                </form>
+                        <button
+                            type="submit"
+                            class="bg-green-500 hover:bg-green-600 text-white px-5 py-2 rounded-lg transition">
 
-                @endauth
+                            Đăng ký
+
+                        </button>
+
+                    </form>
+
+                    @endauth
+
+                </div>
 
             </div>
 
         </div>
 
-    </div>
+        @endforeach
 
-    @endforeach
+    </div>
 
 </div>
 
