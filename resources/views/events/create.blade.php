@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="max-w-5xl mx-auto py-10">
+<div class="max-w-5xl mx-auto py-4 md:py-10 px-3">
 
     <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
 
@@ -260,7 +260,7 @@
                 </div>
 
                 {{-- BUTTON --}}
-                <div class="flex gap-4">
+                <div class="flex flex-col md:flex-row gap-4">
 
                     <button
                         type="submit"
@@ -311,7 +311,7 @@ document
         URL.createObjectURL(files[i]);
 
         img.className =
-        'max-h-40 rounded-lg shadow-md';
+        'w-full md:w-auto max-h-40 rounded-lg shadow-md object-cover';
 
         previewContainer.appendChild(img);
 
