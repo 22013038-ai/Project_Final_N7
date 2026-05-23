@@ -42,7 +42,7 @@
                 <a href="/"
                    class="
                    hover:text-yellow-300 transition
-                   {{ request()->is('/') ? 'text-yellow-300 font-bold' : '' }}
+                   {{ Request::is('/') ? 'text-yellow-300 font-bold' : '' }}
                    ">
 
                     Trang chủ
@@ -65,7 +65,7 @@
                 @auth
 
                     {{-- ADMIN MENU --}}
-                    @if(auth()->user()->role == 'admin')
+                    @if(auth()->check() && auth()->user()->is_admin)
 
                         {{-- CREATE EVENT --}}
                         <a href="/events/create"
@@ -186,7 +186,7 @@
 
 
     {{-- HERO --}}
-    @if(request()->path() == '/')
+    @if(Request::is('/'))
 
         <section
             class="bg-cover bg-center h-[550px]"
@@ -361,7 +361,7 @@
 
                         @auth
 
-                            @if(auth()->user()->role == 'admin')
+                            @if(auth()->check() && auth()->user()->is_admin)
 
                                 <li>
 

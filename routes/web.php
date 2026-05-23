@@ -9,20 +9,61 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 
 
-Route::get(
-    '/',
-    [EventController::class, 'index']
-)->name('home');
+
+Route::get('/', [EventController::class, 'index'])->name('home');
+
 
 Route::get(
     '/events',
     [EventController::class, 'index']
 )->name('events.index');
 
+
+Route::get(
+    '/events/create',
+    [EventController::class, 'create']
+)
+->middleware(['auth', 'admin'])
+->name('events.create');
+
+
+Route::post(
+    '/events',
+    [EventController::class, 'store']
+)
+->middleware(['auth', 'admin'])
+->name('events.store');
+
+
 Route::get(
     '/events/{event}',
     [EventController::class, 'show']
 )->name('events.show');
+
+
+Route::get(
+    '/events/{event}/edit',
+    [EventController::class, 'edit']
+)
+->middleware(['auth', 'admin'])
+->name('events.edit');
+
+
+Route::put(
+    '/events/{event}',
+    [EventController::class, 'update']
+)
+->middleware(['auth', 'admin'])
+->name('events.update');
+
+
+Route::delete(
+    '/events/{event}',
+    [EventController::class, 'destroy']
+)
+->middleware(['auth', 'admin'])
+->name('events.destroy');
+
 
 Route::middleware(['auth'])->group(function () {
 
@@ -31,20 +72,24 @@ Route::middleware(['auth'])->group(function () {
         [RegistrationController::class, 'register']
     )->name('events.register');
 
+
     Route::get(
         '/my-registrations',
         [RegistrationController::class, 'myRegistrations']
     )->name('my.registrations');
+
 
     Route::get(
         '/profile',
         [ProfileController::class, 'edit']
     )->name('profile.edit');
 
+
     Route::patch(
         '/profile',
         [ProfileController::class, 'update']
     )->name('profile.update');
+
 
     Route::delete(
         '/profile',
@@ -53,13 +98,14 @@ Route::middleware(['auth'])->group(function () {
 
 });
 
-Route::middleware(['auth', 'admin'])->group(function () {
 
+Route::middleware(['auth', 'admin'])->group(function () {
 
     Route::get(
         '/dashboard',
         [DashboardController::class, 'index']
     )->name('dashboard');
+
 
     Route::resource(
         'categories',
@@ -67,24 +113,17 @@ Route::middleware(['auth', 'admin'])->group(function () {
     );
 
 
-    Route::resource(
-        'events',
-        EventController::class
-    )->except([
-        'index',
-        'show'
-    ]);
-
-
     Route::get(
         '/registrations',
         [RegistrationController::class, 'index']
     )->name('registrations.index');
 
+
     Route::post(
         '/registrations/{id}/approve',
         [RegistrationController::class, 'approve']
     )->name('registrations.approve');
+
 
     Route::post(
         '/registrations/{id}/cancel',

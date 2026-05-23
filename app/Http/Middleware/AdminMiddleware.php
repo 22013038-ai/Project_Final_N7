@@ -9,7 +9,10 @@ class AdminMiddleware
 {
     public function handle(Request $request, Closure $next)
     {
-        if (!auth()->check() || auth()->user()->role != 'admin') {
+        if (
+            !auth()->check() ||
+            !auth()->user()->is_admin
+        ) {
 
             abort(403, 'Bạn không có quyền truy cập');
 
