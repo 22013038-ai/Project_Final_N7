@@ -17,7 +17,7 @@
 
         {{-- LOGO --}}
         <a href="/" class="text-xl sm:text-2xl md:text-3xl font-bold hover:text-yellow-300 transition">
-            Nhóm 7
+            GoFestVN
         </a>
 
         {{-- MENU --}}
