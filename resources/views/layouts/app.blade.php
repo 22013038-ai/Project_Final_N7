@@ -161,7 +161,7 @@
             <div>
                 <h3 class="text-2xl font-bold mb-4">Liên hệ</h3>
                 <p>nhom7-ltw2@phenikaa.com</p>
-                <p>035 377 0240</p>
+                <p>0333 133 233</p>
             </div>
 
         </div>
