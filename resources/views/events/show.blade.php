@@ -4,6 +4,23 @@
 
 <div class="max-w-6xl mx-auto py-10">
 
+    {{-- Thông báo đăng ký --}}
+    @if(session('success'))
+        <div id="success-alert"
+             class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    @if(session('error'))
+        <div id="error-alert"
+             class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+            {{ session('error') }}
+        </div>
+    @endif
+
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+
     <div class="bg-white rounded-xl shadow-lg overflow-hidden">
 
         {{-- MULTIPLE IMAGES --}}
@@ -194,6 +211,13 @@ setInterval(function(){
 
 },1000);
 
+</script>
+
+<script>
+setTimeout(() => {
+    document.getElementById('success-alert')?.remove();
+    document.getElementById('error-alert')?.remove();
+}, 3000);
 </script>
 
 @endsection

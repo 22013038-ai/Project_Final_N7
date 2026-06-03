@@ -7,6 +7,8 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\BannerController;
+
 
 
 
@@ -97,6 +99,8 @@ Route::middleware(['auth'])->group(function () {
     )->name('profile.destroy');
 
 });
+Route::resource('banners', BannerController::class)
+    ->middleware(['auth','admin']);
 
 
 Route::middleware(['auth', 'admin'])->group(function () {

@@ -11,13 +11,23 @@ class DashboardController extends Controller
     public function index()
     {
         $totalEvents = Event::count();
-
         $totalUsers = User::count();
         $totalRegistrations = Registration::count();
         $pendingRegistrations = Registration::where(
             'status',
             'pending'
         )->count();
+
+        $approvedRegistrations = Registration::where(
+            'status',
+            'approved'
+        )->count();
+
+        $rejectedRegistrations = Registration::where(
+            'status',
+            'rejected'
+        )->count();
+
         $latestEvents = Event::latest()
             ->take(5)
             ->get();
@@ -33,6 +43,8 @@ class DashboardController extends Controller
                 'totalUsers',
                 'totalRegistrations',
                 'pendingRegistrations',
+                'approvedRegistrations',
+                'rejectedRegistrations',
                 'latestEvents',
                 'latestRegistrations'
             )
